@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import Todolist from "./Todolist";
+const App = () => {
+  const [value, setValue] = React.useState("");
+  const [todo, setTodo] = React.useState(["Buy a new laptop"]);
 
-function App() {
+  const valueChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  const formSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const addList = () => {
+    setTodo(() => [...todo, value]);
+    setValue("");
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <form onSubmit={formSubmit}>
+        <input
+          placeholder="Write something"
+          value={value}
+          onChange={valueChange}
+        />
+        <button onClick={addList}>Add List</button>
+      </form>
+      <ul>
+      <Todolist todos={todo}/> 
+      </ul>
     </div>
   );
-}
+};
 
 export default App;
