@@ -1,7 +1,6 @@
 import React from "react";
 
 const Todolist = (props) => {
-    debugger
   return (
     <div>
       {props.todos.map((elem, i) => {
