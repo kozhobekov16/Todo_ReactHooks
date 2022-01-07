@@ -17,33 +17,36 @@ const App = ({ fromServer }) => {
 
   let ifEmpty = "The field must not be empty";
 
-  const ContainerBlock = styled.section`
-    background-color: black;
-    margin-top: 10rem;
-    border-radius: 6px;
-  `
-  const Jumbotron = styled.div`
-    padding: 4rem 2rem;,
-    margin-bottom: 2rem;
-    border-radius: .3rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  `
-  const addList = (e) => {
-    // if (e.key === "Enter") {
-    value === "" ? alert(ifEmpty) : setTodo(() => [...todo, value]);
+  const addList = () => {
+    value === ""
+      ? alert(ifEmpty) && <p>Nothing</p>
+      : setTodo(() => [...todo, value]);
     setValue("");
   };
   const styles = {
+    app: {
+      backgroundColor: "black",
+      marginTop: "5rem",
+      borderRadius: "6px",
+      padding: "30px",
+    },
     forUl: {
       padding: "0px",
       margin: "0px, 2rem",
     },
+    Jumbotron: {
+      padding: "4rem 2rem",
+      marginBottom: "2rem",
+      borderRadius: ".3rem",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+    },
   };
   return (
-    <ContainerBlock className="container">
-      <Jumbotron>
+    <section style={styles.app} className="container">
+      <div>
+        <h1 className="text-secondary">Todo List</h1>
         <AddList
           formSubmit={formSubmit}
           valueInput={value}
@@ -51,11 +54,12 @@ const App = ({ fromServer }) => {
           addTodo={addList}
           style={styles.forInput}
         />
+        {value === "" ? <h2>Enter text in input</h2> : null}
         <ul style={styles.forUl}>
           <Todolist todos={todo} />
         </ul>
-      </Jumbotron>
-    </ContainerBlock>
+      </div>
+    </section>
   );
 };
 

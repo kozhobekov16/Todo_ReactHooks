@@ -1,14 +1,16 @@
 import React from "react";
-
+import { ListGroup, ListGroupItem } from "reactstrap";
 const Todolist = (props) => {
   return (
     <div>
       {props.todos.map((elem, i) => {
         return (
-          <li key={i}>
-            <span>{i + 1}: </span>
-            {elem}
-          </li>
+            <ListGroup key={i}>
+              <ListGroupItem color="info">
+                <span>{i + 1}: </span>
+                {elem}
+              </ListGroupItem>
+            </ListGroup>
         );
       })}
     </div>
