@@ -2,10 +2,11 @@ import React from "react";
 import Todolist from "./Todolist";
 import AddList from "./AddList";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { datas } from "./datas";
 import { Jumbotron as Jumbo } from "reactstrap";
 const App = () => {
   const [value, setValue] = React.useState("");
-  const [todo, setTodo] = React.useState(["Buy a new laptop"]);
+  const [todo, setTodo] = React.useState([datas]);
 
   const valueChange = (e) => {
     setValue(e.target.value);
@@ -35,10 +36,10 @@ const App = () => {
       marginBottom: "2rem",
       backgroundColor: "var(--bs-light)",
       borderRadius: ".3rem",
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-    }
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+    },
   };
   return (
     <div style={styles.app}>
