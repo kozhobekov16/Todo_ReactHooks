@@ -19,29 +19,42 @@ const App = () => {
 
   const addList = (e) => {
     // if (e.key === "Enter") {
-      value === "" ? alert(ifEmpty) : setTodo(() => [...todo, value]);
-      setValue("");
-    
+    value === "" ? alert(ifEmpty) : setTodo(() => [...todo, value]);
+    setValue("");
   };
   const styles = {
+    app: {
+      backgroundColor: "blue",
+    },
     forUl: {
       padding: "0px",
       margin: "0px, 2rem",
     },
+    jumbotron: {
+      padding: "4rem 2rem",
+      marginBottom: "2rem",
+      backgroundColor: "var(--bs-light)",
+      borderRadius: ".3rem",
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+    }
   };
   return (
-      <div className="App">
+    <div style={styles.app}>
+      <div style={styles.jumbotron}>
         <AddList
           formSubmit={formSubmit}
           valueInput={value}
           valueChange={valueChange}
           addTodo={addList}
-          ifValueEmpty={ifEmpty}
+          style={styles.forInput}
         />
         <ul style={styles.forUl}>
           <Todolist todos={todo} />
         </ul>
       </div>
+    </div>
   );
 };
 
