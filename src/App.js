@@ -1,12 +1,11 @@
 import React from "react";
 import Todolist from "./Todolist";
 import AddList from "./AddList";
+import styled from "styled-components";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { datas } from "./datas";
-import { Jumbotron as Jumbo } from "reactstrap";
-const App = () => {
+const App = ({ fromServer }) => {
   const [value, setValue] = React.useState("");
-  const [todo, setTodo] = React.useState([datas]);
+  const [todo, setTodo] = React.useState([fromServer]);
 
   const valueChange = (e) => {
     setValue(e.target.value);
@@ -18,32 +17,33 @@ const App = () => {
 
   let ifEmpty = "The field must not be empty";
 
+  const ContainerBlock = styled.section`
+    background-color: black;
+    margin-top: 10rem;
+    border-radius: 6px;
+  `
+  const Jumbotron = styled.div`
+    padding: 4rem 2rem;,
+    margin-bottom: 2rem;
+    border-radius: .3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  `
   const addList = (e) => {
     // if (e.key === "Enter") {
     value === "" ? alert(ifEmpty) : setTodo(() => [...todo, value]);
     setValue("");
   };
   const styles = {
-    app: {
-      backgroundColor: "blue",
-    },
     forUl: {
       padding: "0px",
       margin: "0px, 2rem",
     },
-    jumbotron: {
-      padding: "4rem 2rem",
-      marginBottom: "2rem",
-      backgroundColor: "var(--bs-light)",
-      borderRadius: ".3rem",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-    },
   };
   return (
-    <div style={styles.app}>
-      <div style={styles.jumbotron}>
+    <ContainerBlock className="container">
+      <Jumbotron>
         <AddList
           formSubmit={formSubmit}
           valueInput={value}
@@ -54,8 +54,8 @@ const App = () => {
         <ul style={styles.forUl}>
           <Todolist todos={todo} />
         </ul>
-      </div>
-    </div>
+      </Jumbotron>
+    </ContainerBlock>
   );
 };
 
