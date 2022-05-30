@@ -1,66 +1,87 @@
-import React from "react";
-import Todolist from "./Todolist";
-import AddList from "./AddList";
-import styled from "styled-components";
+import React, {useState, useEffect} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-const App = ({ fromServer }) => {
-  const [value, setValue] = React.useState("");
-  const [todo, setTodo] = React.useState([fromServer]);
+import './App.css'
 
-  const valueChange = (e) => {
-    setValue(e.target.value);
-  };
-
-  const formSubmit = (e) => {
-    e.preventDefault();
-  };
-
-  let ifEmpty = "The field must not be empty";
-
-  const addList = () => {
-    value === ""
-      ? alert(ifEmpty) && <p>Nothing</p>
-      : setTodo(() => [...todo, value]);
-    setValue("");
-  };
-  const styles = {
-    app: {
-      backgroundColor: "black",
-      marginTop: "5rem",
-      borderRadius: "6px",
-      padding: "30px",
-    },
-    forUl: {
-      padding: "0px",
-      margin: "0px, 2rem",
-    },
-    Jumbotron: {
-      padding: "4rem 2rem",
-      marginBottom: "2rem",
-      borderRadius: ".3rem",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-    },
-  };
-  return (
-    <section style={styles.app} className="container">
-      <div>
-        <h1 className="text-secondary">Todo List</h1>
-        <AddList
-          formSubmit={formSubmit}
-          valueInput={value}
-          valueChange={valueChange}
-          addTodo={addList}
-          style={styles.forInput}
-        />
-        {value === "" ? <h2>Enter text in input</h2> : null}
-        <ul style={styles.forUl}>
-          <Todolist todos={todo} />
-        </ul>
-      </div>
-    </section>
-  );
+const App = () => {
+    const users = {
+        firstName: '',
+        lastName: '',
+        salary: '',
+        id: Date.now()
+    }
+    const getUsers = () => {
+        const data = localStorage.getItem('users')
+        if (data) {
+            return JSON.parse(data)
+        } else {
+            return []
+        }
+    }
+    const [text, setText] = useState(users)
+    const [dataUsers, setDataUsers] = useState([getUsers()])
+    const onsubmit = e => {
+        e.preventDefault()
+    }
+    const addContact = () => {
+        setDataUsers([...dataUsers, text])
+        setText(users)
+    }
+    const removeContact = (id) => {
+        setDataUsers(dataUsers.filter(item => item.id !== id))
+    }
+    useEffect(() => {
+        localStorage.setItem('users', JSON.stringify(dataUsers))
+    }, [dataUsers])
+    return (
+        <div className='main'>
+            <h1 className="text-white">Contact List</h1>
+            <form onSubmit={onsubmit} className='add'>
+                <input
+                    type="text" placeholder='First name'
+                    value={text.firstName}
+                    onChange={e => setText(prevState => ({
+                        ...prevState,
+                        firstName: e.target.value
+                    }))}
+                />
+                <input type="text" placeholder='Last name'
+                       value={text.lastName}
+                       onChange={e => setText(prevState => ({
+                           ...prevState,
+                           lastName: e.target.value
+                       }))}/>
+                <input type="text" placeholder='Salary'
+                       value={text.salary}
+                       onChange={e => setText(prevState => ({
+                           ...prevState,
+                           salary: e.target.value
+                       }))}
+                />
+                <button onClick={addContact}>+</button>
+            </form>
+            <table>
+                <thead>
+                <p className='count'>Количество контактов: {dataUsers.length}</p>
+                <tr>
+                    <th>First Name</th>
+                    <th>Second Name</th>
+                    <th>Salary</th>
+                </tr>
+                </thead>
+                <tbody>
+                {dataUsers.map(item => (
+                    <tr key={`${item.id}_${item.name}`}>
+                        <td>{item.firstName}</td>
+                        <td>{item.lastName}</td>
+                        <td>{item.salary}$</td>
+                        <button onClick={() => removeContact(item.id)}>-</button>
+                    </tr>
+                ))}
+                </tbody>
+                <button style={{marginTop: '5px'}} onClick={() => setDataUsers([])}>Remove All</button>
+            </table>
+        </div>
+    );
 };
 
 export default App;
